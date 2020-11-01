@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--使用自定义类实现-->
+    <!--注入类DiyPointCut-->
+    <bean id="diy" class="com.twy.diy.DiyPointCut"/>
+    <aop:config>
+        <!--自定义切面  ref是要引用的类-->
+        <aop:aspect ref="diy">
+            <!--切入点 expression:表达式 execution（* * * * *）:要执行的位置,这个表达式意思是：这个实现类下的所有方法，任意传入参数-->
+            <aop:pointcut id="pointcut" expression="execution(* com.twy.service.UserServiceImpl.*(..))"/>
+
+            <!--通知-->
+            <aop:before method="before" pointcut-ref="pointcut"/>
+            <aop:after method="after" pointcut-ref="pointcut"/>
+        </aop:aspect>
+    </aop:config>
+</beans>
